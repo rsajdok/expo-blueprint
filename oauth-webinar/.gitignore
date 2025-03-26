@@ -50,6 +50,7 @@ ml
 *.apk
 *.hprof
 ReactAndroid-temp.aar
+/android
 
 # Tools
 jarjar-rules.txt
@@ -119,4 +120,5 @@ docs/pages/versions/*/react-native/*.diff
 !crsqlite.xcframework
 
 # iOS
+/ios
 **/ios/.xcode.env.local
