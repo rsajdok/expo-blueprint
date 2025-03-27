@@ -2,9 +2,14 @@ import { StatusBar } from 'expo-status-bar';
 import { Button, StyleSheet, Text, View } from 'react-native';
 import { useAuth } from '../context/auth';
 import LoginForm from '@/components/LoginForm';
+import { AuthError } from 'expo-auth-session';
 
 export default function App() {
-    const { user, isLoading, signOut } = useAuth();
+    const { user, isLoading, signOut, error } = useAuth();
+
+    if (error) {
+        return <Text>{(error as AuthError).message}</Text>;
+    }
 
     if (isLoading) {
         return <Text>Loading...</Text>;

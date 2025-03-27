@@ -68,6 +68,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   async function handleResponse() {
     // This function is called when Google redirects back to our app
     // The response contains the authorization code that we'll exchange for tokens
+    console.log("handleResponse", response);
     if (response?.type === "success") {
       try {
         setIsLoading(true);
@@ -112,7 +113,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         console.log(tokenResponseN);
         */
 
-        console.log("code", code);
+        // console.log("code", code);
         const tokenResponse = await exchangeCodeAsync({
           code: code,
           extraParams: {
@@ -124,7 +125,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
         }, discovery)
 
-        console.log("token response", tokenResponse);
+        // console.log("token response", tokenResponse);
+        // console.log("isWeb", isWeb);
 
         if (isWeb) {
         } else {
@@ -133,7 +135,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
           const accessToken = tokenResponse.accessToken;
           setAccessToken(accessToken);
           tokenCache?.saveToken("accessToken", accessToken);
-          console.log(accessToken);
+          // console.log(accessToken);
 
           const decode = jose.decodeJwt(tokenResponse.accessToken);
           setUser(decode as AuthUser);
@@ -146,6 +148,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     } else if (response?.type === "cancel") {
       alert("Sign in cancelled");
     } else if (response?.type === "error") {
+      console.error("Error during auth flow:", response.error);
       setError(response?.error as AuthError);
     }
   }
@@ -159,7 +162,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
       await promptAsync();
     } catch (e) {
-      console.log(e);
+      console.log("promptAsync", e);
     }
   };
 
@@ -167,6 +170,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     if (isWeb) {
       // For web: Call logout endpoint to clear the cookie
       try {
+        console.log("signOut web");
         await fetch(`${BASE_URL}/api/auth/logout`, {
           method: "POST",
           credentials: "include",

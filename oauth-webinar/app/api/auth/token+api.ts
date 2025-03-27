@@ -129,7 +129,7 @@ export async function POST(request: Request) {
 
     return response;
   }
-  console.log("accessToken", accessToken);
+  // console.log("accessToken", accessToken);
 
   return Response.json({
     "access_token": accessToken,
