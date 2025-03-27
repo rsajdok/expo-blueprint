@@ -30,7 +30,12 @@
     },
     "plugins": [
       "expo-secure-store",
-      "expo-router"
+      [
+        "expo-router",
+        {
+          "origin": "http://localhost:8081"
+        }
+      ]
     ],
     "extra": {
       "eas": {
