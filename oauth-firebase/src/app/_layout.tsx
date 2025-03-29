@@ -1,14 +1,13 @@
 
+import { AuthProvider } from '@/providers/AuthProvider';
 import '../../global.css';
-import { View, Text } from "react-native";
-import GoogleSignInButton from './components/GoogleSignInButton';
+import { Slot } from "expo-router";
 
 export default function AppLayout() {
-
+    console.log("AppLayout");
     return (
-        <View className="flex-1 items-center justify-center">
-            <Text className="text-yellow-300 text-2xl">App Layout</Text>
-            <GoogleSignInButton />
-        </View>
+        <AuthProvider>
+            <Slot />
+        </AuthProvider >
     )
 }

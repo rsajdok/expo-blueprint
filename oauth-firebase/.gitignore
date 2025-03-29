@@ -31,6 +31,7 @@ yarn-error.*
 
 # local env files
 .env*.local
+.env
 
 # typescript
 *.tsbuildinfo
@@ -122,3 +123,8 @@ docs/pages/versions/*/react-native/*.diff
 # iOS
 /ios
 **/ios/.xcode.env.local
+
+GoogleService-Info.plist
+firebaseConfig.ts
+google-services.json
+local.properties
