@@ -1,4 +1,4 @@
-import { View, Text, Button, TouchableOpacity, SafeAreaView } from "react-native";
+import { View, Text, useColorScheme, Touchable, TouchableOpacity } from "react-native";
 import {
     GoogleSignin,
     isErrorWithCode,
@@ -15,8 +15,10 @@ GoogleSignin.configure({
 
 export default function SignIn() {
     const [initializing, setInitializing] = useState(true);
-
     const { signIn } = useAuth();
+    const colorScheme = useColorScheme();
+
+    console.log(colorScheme);
 
     useEffect(() => {
         const unSubscriber = auth().onAuthStateChanged(user => {
@@ -69,7 +71,12 @@ export default function SignIn() {
 
     return (
         <View className="flex-1 justify-center items-center">
-            <Button title="Sign In" onPress={onGoogleButtonPress} />
+            <TouchableOpacity
+                className={`p-4 rounded ${colorScheme === "dark" ? "bg-white" : "bg-red-500"}`}
+                onPress={onGoogleButtonPress}
+            >
+                <Text className={`${colorScheme === "dark" ? "text-black" : "text-white"} text-center`}>Sign in</Text>
+            </TouchableOpacity>
         </View>
     );
 }
