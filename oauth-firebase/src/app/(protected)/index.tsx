@@ -1,5 +1,5 @@
 import { useAuth } from "@/providers/AuthProvider";
-import { View, Text, Button } from "react-native";
+import { View, Text, Button, Pressable } from "react-native";
 import {
     GoogleSignin,
     isErrorWithCode,
@@ -7,6 +7,7 @@ import {
     GoogleSigninButton
 } from '@react-native-google-signin/google-signin';
 import auth from '@react-native-firebase/auth';
+import { Link } from "expo-router";
 
 export default function index() {
     const { signOut } = useAuth();
@@ -22,8 +23,19 @@ export default function index() {
     }
 
     return (
-        <View className="flex-1 justify-center items-center">
-            <Button title="Sign out" onPress={onSignOut} />
+        <View className="flex-1 justify-center items-center gap-y-8">
+            <Pressable
+                onPress={onSignOut}
+                className="bg-gray-200 rounded-lg px-6 py-3"
+            >
+                <Text className="text-blue-500 text-lg">Sign Out</Text>
+            </Pressable>
+            <Link
+                href="/posts"
+                className="text-blue-500 text-lg bg-gray-200 rounded-lg px-6 py-3"
+            >
+                Posts
+            </Link>
         </View>
     )
 }

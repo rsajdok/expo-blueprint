@@ -13,6 +13,7 @@
     "@react-native-firebase/app": "^21.12.3",
     "@react-native-firebase/auth": "^21.12.3",
     "@react-native-google-signin/google-signin": "^13.2.0",
+    "@tanstack/react-query": "^5.71.5",
     "dotenv": "^16.4.7",
     "expo": "~52.0.41",
     "expo-auth-session": "~6.0.3",
