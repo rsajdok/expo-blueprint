@@ -22,6 +22,7 @@ export default function App() {
             },
             );
             const data = await reponse.json();
+            console.log('posts', JSON.stringify(data));
             setPosts(data.posts);
         };
 

@@ -1,14 +1,29 @@
 import { getPosts } from "@/services/postService";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useInfiniteQuery } from "@tanstack/react-query";
 import { Link } from "expo-router";
-import { View, Text, FlatList, Pressable } from "react-native";
+import { View, Text, FlatList, Pressable, ActivityIndicator, Button } from "react-native";
 
 export default function Posts() {
     console.log("Posts");
-    const { data, isLoading, error } = useQuery({
-        queryKey: ['posts'],
-        queryFn: () => getPosts(),
+    const { data, isLoading, error, refetch, isRefetching, fetchNextPage, hasNextPage, isFetchingNextPage } = useInfiniteQuery({
+        queryKey: ["posts"],
+        queryFn: ({ pageParam }) => getPosts(pageParam),
+        initialPageParam: { limit: 3, cursor: undefined },
+        getNextPageParam: (lastPage, pages) => {
+            if (lastPage.length === 0) {
+                return undefined;
+            }
+            return {
+                limit: 2,
+                cursor: lastPage[lastPage.length - 1].id,
+            }
+        },
     });
+
+    console.log("data", JSON.stringify(data));
+    const posts = data?.pages.flat() || [];
+
+    console.log("posts", JSON.stringify(posts));
 
     if (isLoading) {
         return <Text>Loading...</Text>;
@@ -17,7 +32,7 @@ export default function Posts() {
     if (error) {
         return <Text>Error: {error.message}</Text>;
     }
-    const posts = data?.flat() || [];
+    console.log(JSON.stringify(data));
 
     return (
         <FlatList
@@ -31,7 +46,12 @@ export default function Posts() {
                     </Pressable>
                 </Link>
             )}
-            onEndReachedThreshold={2}
+            // refreshing={isRefetching}
+            // onEndReachedThreshold={2}
+            ListFooterComponent={() =>
+                isFetchingNextPage ? (<ActivityIndicator />) :
+                    hasNextPage ? (<Button title="Load More" onPress={() => fetchNextPage()} disabled={!hasNextPage} />) : null
+            }
         />
     );
 
