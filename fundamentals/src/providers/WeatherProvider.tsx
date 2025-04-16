@@ -1,13 +1,14 @@
 import { createContext, PropsWithChildren, useContext, useState } from "react";
 
-type WeatherContext = {
+type WeatherContextType = {
     day: Date,
     temperature?: number;
-    setTemperatue?: (temperature: number) => void;
+    setTemperature?: (temperature: number) => void;
+    setTemperatureManually?: (temperature: number) => void;
     fetchTemperatue?: () => Promise<void>;
 }
 
-const WeatherContext = createContext<WeatherContext>({
+const WeatherContext = createContext<WeatherContextType>({
     day: new Date(),
 });
 
@@ -15,8 +16,8 @@ export default function WeatherProvider({ children }: PropsWithChildren) {
     const [day] = useState(new Date());
     const [temperature, setTemperature] = useState<number | undefined>(undefined);
 
-    const setTemperatue = (temperature: number) => {
-        console.log("setTemperatue", temperature);
+    const setTemperatureManually = (temperature: number) => {
+        console.log("setTemperatureManually", temperature);
         setTemperature(temperature);
     }
 
@@ -32,7 +33,8 @@ export default function WeatherProvider({ children }: PropsWithChildren) {
         <WeatherContext.Provider value={{
             day,
             temperature,
-            setTemperatue,
+            setTemperature,
+            setTemperatureManually,
             fetchTemperatue
         }}>
             {children}
